@@ -109,5 +109,91 @@ private:
 };
 
 
+class Mat_access{
+public:
+    Mat_access(Mat_vector& Mat, int threshold = 0){
+        n_dimension = Mat.dimension();
+        M = Mat.size();
+    
+        M_sparse.resize(M);
+    
+        for(auto it = M_sparse.begin() ; it < M_sparse.end() ; ++it){
+            (*it).resize(n_dimension, n_dimension);
+        }
+    
+        for (int m = 0 ; m < M ; ++m){
+            M_sparse[m] = to_access(Mat.sparse(m),threshold);
+        }
+    }
+  
+    Eigen::SparseMatrix<int>& sparse(int m){
+        return M_sparse[m];
+    }
+    
+    int dimension() const {return n_dimension;}
+    int steps() const {return M;}
+  
+private:
+    std::vector<Eigen::SparseMatrix<int>> M_sparse;
+    int M, n_dimension;
+};
+
+
+class Mat_prod_access{
+public:
+    Mat_prod_access(Mat_access& Mat){
+        int m = Mat.steps();
+        Pairs = make_pairs(m);
+        for(int i = 0; i < Pairs.size() ; ++i){
+            M_Prod.push_back(make_product_sparse(Mat, Pairs[i].first,Pairs[i].second));
+        }
+    }
+  
+    int get_index(int i, int j){
+        for (int k = 0; k < Pairs.size() ; ++k){
+            if (Pairs[k].first == i && Pairs[k].second == j) {return k;}
+        }
+        std::cout << "No matrix found, returning no index";
+        return -1;
+    }
+  
+    Eigen::SparseMatrix<int>& m_prod(int m){
+        return M_Prod[m];
+    }
+  
+  
+private:
+    std::vector<std::pair<int,int>> make_pairs(int m){
+        std::vector<std::pair<int,int>> P;
+    
+        for (int i = 0 ; i < m  ; ++i){
+            for(int j = 1 ; j <= m - i ; ++j){
+                P.push_back(std::pair<int,int>(j,j+i));
+            }
+        }
+        return P;
+    }
+  
+    Eigen::SparseMatrix<int> make_product_sparse(Mat_access& Mat, int i, int j){
+        if (i == j){
+            return Mat.sparse(i-1);
+        }
+        else {
+            int counter;
+            for (int k = 0; k < Pairs.size(); ++k){
+                if (Pairs[k].first == i+1 && Pairs[k].second == j){
+                    counter = k;
+                    break;
+                }
+            }
+            return Mat.sparse(i-1)*M_Prod[counter];
+        }
+    }
+  
+private:
+    std::vector<Eigen::SparseMatrix<int>> M_Prod;
+    std::vector<std::pair<int,int>> Pairs;
+};
+
 
 #endif

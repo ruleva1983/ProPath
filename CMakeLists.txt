@@ -1,6 +1,6 @@
 # CMakeLists.txt
-# Date: 2018-11-30
-# Author: Ruggero Vasile (ruleva1983@gmail.com)
+# Date: 2019-12-15
+# Author: Dr. Ruggero Vasile (ruleva1983@gmail.com)
 
 project ( ProPath )
 
