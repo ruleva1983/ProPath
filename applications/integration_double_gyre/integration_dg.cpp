@@ -4,8 +4,6 @@
 #include "system.hpp"
 #include "observer.hpp"
 #include <boost/numeric/odeint.hpp>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
 #include <fstream>
 #include <sstream>
 
@@ -16,23 +14,6 @@ using namespace boost::numeric::odeint;
 
 
 typedef std::vector<double> state_type;
-
-void boundary_conditions(state_type& x) {
-	if (x[0] > 2.0)
-		x[0] = 2.0;
-
-	if (x[0] < 0.0)
-		x[0] = 0.0;
-
-	if (x[1] > 1.0)
-		x[1] = 1.0;
-
-	if (x[1] < 0.0)
-		x[1] = 0.0;
-}
-
-
-
 
 
 std::vector<state_type> generate_particles(double a_x = 0, double b_x = 2,
@@ -102,11 +83,7 @@ int evaluate_cell(double x, double y, double step = 0.01, int x_cells = 200) {
 }
 
 
-
-
 int main(int argc, char *argv[]) {
-	ostringstream ofs;
-	boost::archive::text_oarchive ar(ofs);
 	std::string m_string = argv[1];
 
 	gyre_back system(0.1, 0.25, 0.2 * PI);

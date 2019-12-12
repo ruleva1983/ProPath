@@ -9,7 +9,21 @@ using namespace std;
 double Dijkstra(Mat_vector& Mat, int m1, int m2, int i, int j, int M,
 		std::vector<std::vector<int>>& U, std::vector<int>& Count,
 		std::vector<int>& Path) {
-	// Check m2 > m1
+    /**
+    Dijkstra shortest path algorithm applied to for a temporal weighted network.
+
+    This function finds the shortest/most probable path in a temporal weighted network described
+    by a set of weighted adjacency matrices. It returns the probability of the associated most
+    probable path
+    
+
+    @param  Mat. Vector of matrices..
+    @param  m1. Integer 
+    @return Description of the return value
+    */
+	
+    
+    // Check m2 > m1
 	// If there is only one step
 	if (m2 == m1 + 1) {
 		Path = std::vector<int> { i, j };
@@ -39,9 +53,8 @@ double Dijkstra(Mat_vector& Mat, int m1, int m2, int i, int j, int M,
 			double Aux, Proo = 0;
 			int node;
 			Path.push_back(i);
-			for (int m = m1 + 1; m <= m2 - 2; ++m) // Number of double for loops to do
-					{
-				for (int l = 0; l < Count[m]; ++l) {
+			for (int m = m1 + 1; m <= m2 - 2; ++m){ // Number of double for loops to do
+                for (int l = 0; l < Count[m]; ++l) {
 					for (int k = 0; k < Count[m - 1]; ++k) {
 						Aux = Fun[m - 1][k]
 								* Mat.sparse(m).coeff(U[m - 1][k], U[m][l]);
@@ -72,5 +85,7 @@ double Dijkstra(Mat_vector& Mat, int m1, int m2, int i, int j, int M,
 	}
 
 }
+
+
 
 

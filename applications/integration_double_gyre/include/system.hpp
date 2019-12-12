@@ -12,8 +12,24 @@
 #define PI 3.14159265
 
 using namespace std;
+using namespace boost::numeric::odeint;
 
 typedef std::vector<double> state_type;
+
+
+void boundary_conditions(state_type& x) {
+	if (x[0] > 2.0)
+		x[0] = 2.0;
+
+	if (x[0] < 0.0)
+		x[0] = 0.0;
+
+	if (x[1] > 1.0)
+		x[1] = 1.0;
+
+	if (x[1] < 0.0)
+		x[1] = 0.0;
+}
 
 
 struct gyre {
