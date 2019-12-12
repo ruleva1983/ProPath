@@ -2,10 +2,18 @@
 #include <iostream>
 #include <string>
 #include "system.hpp"
+#include "observer.hpp"
+#include <boost/numeric/odeint.hpp>
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <fstream>
+#include <sstream>
 
 #define PI 3.14159265
 
 using namespace std;
+using namespace boost::numeric::odeint;
+
 
 typedef std::vector<double> state_type;
 
@@ -22,6 +30,77 @@ void boundary_conditions(state_type& x) {
 	if (x[1] < 0.0)
 		x[1] = 0.0;
 }
+
+
+
+
+
+std::vector<state_type> generate_particles(double a_x = 0, double b_x = 2,
+		double a_y = 0, double b_y = 1, int x_cells = 200, int y_cells = 100,
+		int particle_density = 20) {
+	std::vector<state_type> N;
+	double step = (b_y - a_y) / y_cells;
+	for (int i = 0; i < x_cells; ++i) {
+		for (int j = 0; j < y_cells; ++j) {
+			for (int k = 1; k < particle_density + 1; ++k) {
+				for (int l = 1; l < particle_density + 1; ++l) {
+					state_type x { a_x + step * i
+							+ k * step / (particle_density + 1), a_y + step * j
+							+ l * step / (particle_density + 1) };
+					N.push_back(x);
+				}
+			}
+		}
+	}
+	return N;
+}
+
+struct matrix {
+	std::vector<std::vector<double>> A;
+	int dim;
+
+	matrix(int n = 20000) {
+		dim = n;
+		A.resize(n);
+		for (int i = 0; i < A.size(); ++i)
+			A[i].resize(n);
+	}
+
+	double& operator()(int i, int j) {
+		return A[i][j];
+	}
+
+	void smart_print(ofstream& file) {
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				if (A[i][j] != 0)
+					file << i << "\t" << j << "\t" << A[i][j] << "\n";
+			}
+		}
+	}
+
+	void normalize_out() {
+		std::vector<double> out_strenghts(dim);
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++)
+				out_strenghts[i] += A[i][j];
+		}
+
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++)
+				A[i][j] /= out_strenghts[i];
+		}
+
+	}
+
+};
+
+int evaluate_cell(double x, double y, double step = 0.01, int x_cells = 200) {
+	int n_x = static_cast<int>(x / step);
+	int n_y = static_cast<int>(y / step);
+	return n_x + x_cells * n_y;
+}
+
 
 
 

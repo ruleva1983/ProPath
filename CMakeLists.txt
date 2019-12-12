@@ -7,7 +7,7 @@ project ( ProPath )
 cmake_minimum_required ( VERSION 3.5 )
 
 option (BUILD_TESTS "Enable to build tests" OFF)
-option (BUILD_EXAMPLES "Enable to build examples" OFF)
+option (BUILD_EXAMPLES "Enable to build examples" ON)
 
 add_definitions(-std=c++11)
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")

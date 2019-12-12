@@ -6,6 +6,8 @@
 #include <iostream>
 #include <boost/numeric/odeint.hpp>
 
+#include "observer.hpp"
+
 
 #define PI 3.14159265
 
@@ -52,27 +54,7 @@ struct gyre_back {
 	}
 };
 
-struct observer {
-	std::vector<state_type> states;
-	std::vector<double> times;
-	observer() {
-		states = std::vector < state_type > (0);
-		times = std::vector<double>(0);
-	}
 
-	void operator()(state_type x, double t) {
-		states.push_back(x);
-		times.push_back(t);
-	}
-
-	void print() {
-		cout << "Observed trajectory: " << endl;
-		for (int i = 0; i < states.size(); ++i)
-			cout << " x = " << states[i][0] << "  y = " << states[i][1]
-					<< "  t = " << times[i] << endl;
-	}
-
-};
 
 
 template<class System>
