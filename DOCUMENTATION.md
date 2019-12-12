@@ -1,4 +1,11 @@
+## Install boost
+
+For this project we need header only libraries of boost. To install:
+
+* item sudo apt-get install libboost-all-dev
+
 ## Install Gtest
+
 Gtest is used to compile and run the tests. Please refer to https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/
 for a proper installation on ubuntu system.
 
