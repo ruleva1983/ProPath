@@ -2,7 +2,7 @@
 
 For this project we need header only libraries of boost. To install:
 
-* item sudo apt-get install libboost-all-dev
+* sudo apt-get install libboost-all-dev
 
 ## Install Gtest
 
