@@ -1,3 +1,14 @@
+
+## Overview
+
+When using this code, please acknowledge the authors by citing [Ser-Giacomi et al. (2015a)](#references) and [Ser-Giacomi et al. (2015b)](#references). 
+
+
+
+
+
+
+
 ## Install boost
 
 For this project we need header only libraries of boost. To install:
@@ -10,9 +21,11 @@ Gtest is used to compile and run the tests. Please refer to https://www.eriksmis
 for a proper installation on ubuntu system.
 
 
-## Overview
 
-When using this code, please acknowledge the authors by citing [Ser-Giacomi et al. (2015a)](#references) and [Ser-Giacomi et al. (2015b)](#references). 
+
+
+
+
 
 
 
