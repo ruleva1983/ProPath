@@ -10,27 +10,25 @@
 #include <vector>
 #include <string>
 
-//#include "utils.hpp"
-
 
 using namespace std;
 
 class Mat_vector{
 public:
     
-    Mat_vector(int dimension, const std::vector<std::string>& s, std::string mode = "smart");
+    Mat_vector(int, const std::vector<std::string>& , std::string);
+    
+    void smart_read(const std::vector<std::string>&);
   
-    void smart_read(const std::vector<std::string>& s);
-  
-    void standard_read(const std::vector<std::string>& s);
+    void standard_read(const std::vector<std::string>&);
  
     int size();
   
-    Eigen::SparseMatrix<double>& sparse(int m);
+    Eigen::SparseMatrix<double>& sparse(int);
   
-    std::vector<Eigen::SparseMatrix<double>> partial(int m1, int m2);
+    std::vector<Eigen::SparseMatrix<double>> partial(int, int);
   
-    std::vector<Eigen::SparseMatrix<double>> * pointer(int m);
+    std::vector<Eigen::SparseMatrix<double>> * pointer(int);
   
     int dimension() const; 
     

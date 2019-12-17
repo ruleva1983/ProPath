@@ -16,10 +16,11 @@ find_package ( Boost )
 
 include_directories ( SYSTEM ${Boost_INCLUDE_DIRS} )
 
-set(src/containers.cpp
-    src/utils.cpp
-    src/dijkstra.cpp
-    )
+#set(sources src/io.cpp 
+#    src/containers.cpp
+#    src/utils.cpp
+#    src/dijkstra.cpp
+#    )
 
 include_directories(include)
 include_directories(third-party)

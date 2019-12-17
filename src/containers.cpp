@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 #include "utils.hpp"
-#include "container.hpp"
+#include "containers.hpp"
 
 using namespace std;
 
@@ -97,7 +97,7 @@ using namespace std;
     int Mat_vector::steps() const {return M;}
 
 
-
+/*
     Mat_access::Mat_access(Mat_vector& Mat, int threshold = 0){
         n_dimension = Mat.dimension();
         M = Mat.size();
@@ -171,3 +171,4 @@ using namespace std;
         }
     }
 
+*/
