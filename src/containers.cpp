@@ -121,55 +121,55 @@ Eigen::SparseMatrix<int>& Mat_access::sparse(int m){
 int Mat_access::dimension() const {return n_dimension;}
 int Mat_access::steps() const {return M;}
 
-/*
 
 
-    Mat_prod_access::Mat_prod_access(Mat_access& Mat){
-        int m = Mat.steps();
-        Pairs = make_pairs(m);
-        for(int i = 0; i < Pairs.size() ; ++i){
-            M_Prod.push_back(make_product_sparse(Mat, Pairs[i].first,Pairs[i].second));
-        }
+
+Mat_prod_access::Mat_prod_access(Mat_access& Mat){
+    int m = Mat.steps();
+    Pairs = make_pairs(m);
+    for(int i = 0; i < Pairs.size() ; ++i){
+        M_Prod.push_back(make_product_sparse(Mat, Pairs[i].first,Pairs[i].second));
     }
+}
   
-    int Mat_prod_access::get_index(int i, int j){
-        for (int k = 0; k < Pairs.size() ; ++k){
-            if (Pairs[k].first == i && Pairs[k].second == j) {return k;}
-        }
-        std::cout << "No matrix found, returning no index";
-        return -1;
+int Mat_prod_access::get_index(int i, int j){
+    for (int k = 0; k < Pairs.size() ; ++k){
+        if (Pairs[k].first == i && Pairs[k].second == j) {return k;}
     }
+    std::cout << "No matrix found, returning no index";
+    return -1;
+}
   
-    Eigen::SparseMatrix<int>& Mat_prod_access::m_prod(int m){
-        return M_Prod[m];
-    }
+Eigen::SparseMatrix<int>& Mat_prod_access::m_prod(int m){
+    return M_Prod[m];
+}
   
-  
-    std::vector<std::pair<int,int>> Mat_prod_access::make_pairs(int m){
-        std::vector<std::pair<int,int>> P;
+
+std::vector<std::pair<int,int>> Mat_prod_access::make_pairs(int m){
+    std::vector<std::pair<int,int>> P;
     
-        for (int i = 0 ; i < m  ; ++i){
-            for(int j = 1 ; j <= m - i ; ++j){
-                P.push_back(std::pair<int,int>(j,j+i));
-            }
+    for (int i = 0 ; i < m  ; ++i){
+        for(int j = 1 ; j <= m - i ; ++j){
+            P.push_back(std::pair<int,int>(j,j+i));
         }
-        return P;
     }
+    return P;
+}
   
-    Eigen::SparseMatrix<int> Mat_prod_access::make_product_sparse(Mat_access& Mat, int i, int j){
-        if (i == j){
-            return Mat.sparse(i-1);
-        }
-        else {
-            int counter;
-            for (int k = 0; k < Pairs.size(); ++k){
-                if (Pairs[k].first == i+1 && Pairs[k].second == j){
-                    counter = k;
-                    break;
-                }
-            }
-            return Mat.sparse(i-1)*M_Prod[counter];
-        }
+Eigen::SparseMatrix<int> Mat_prod_access::make_product_sparse(Mat_access& Mat, int i, int j){
+    if (i == j){
+        return Mat.sparse(i-1);
     }
+    else {
+        int counter;
+        for (int k = 0; k < Pairs.size(); ++k){
+            if (Pairs[k].first == i+1 && Pairs[k].second == j){
+                counter = k;
+                break;
+            }
+        }
+        return Mat.sparse(i-1)*M_Prod[counter];
+    }
+}
 
-*/
+
