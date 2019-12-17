@@ -11,90 +11,91 @@
 using namespace std;
 
 
-    Mat_vector::Mat_vector(int dimension, const std::vector<std::string>& s, std::string mode = "smart"): n_dimension(dimension){
-        M = s.size();
-        M_sparse.resize(M);
-        for(auto it = M_sparse.begin() ; it < M_sparse.end() ; ++it){
-            (*it).resize(n_dimension, n_dimension);
-        }
-      
-        if(mode == "smart")
-            smart_read(s);
-      
-        else if(mode == "standard")
-            standard_read(s);
-      
-        else
-            std::cout << "Wrong inizialization mode for Mat_vector";
+Mat_vector::Mat_vector(int dimension, const std::vector<std::string>& s, std::string mode = "smart"): n_dimension(dimension){
+    M = s.size();
+    M_sparse.resize(M);
+    for(auto it = M_sparse.begin() ; it < M_sparse.end() ; ++it){
+        (*it).resize(n_dimension, n_dimension);
     }
+      
+    if(mode == "smart")
+        smart_read(s);
+      
+    else if(mode == "standard")
+        standard_read(s);
+      
+    else
+        std::cout << "Wrong inizialization mode for Mat_vector";
+}
   
-  
-    void Mat_vector::smart_read(const std::vector<std::string>& s){  
-        int m = 0;
-        for (auto s_it = s.begin() ; s_it < s.end() ; ++s_it){
-            int counter = 0;
+void Mat_vector::smart_read(const std::vector<std::string>& s){  
+    int m = 0;
+    for (auto s_it = s.begin() ; s_it < s.end() ; ++s_it){
+        int counter = 0;
 
-            std::ifstream file_name(*s_it);
-            std::cout << "Reading " << *s_it << "..." << std::endl;
-            while ( !file_name.eof() )  // Check this bug
-            {
+        std::ifstream file_name(*s_it);
+        std::cout << "Reading " << *s_it << "..." << std::endl;
+        while ( !file_name.eof() ){
     
-                int i, j;
-                double value;
-                ++counter;
-    
-                file_name >> i >> j >> value;
-    
-                if ( file_name.eof() )
-                    break;
-    
-                if (value > 0.00001)
-                    M_sparse[m].insert(i,j) = value;
-            }
-            file_name.close();
-            ++m;
-        }
-    }
-  
-    void Mat_vector::standard_read(const std::vector<std::string>& s){  
-        int m = 0;
-        for (auto s_it = s.begin() ; s_it < s.end() ; ++s_it){
-            int counter = 0;
-            std::cout << "Reading " << *s_it << "..." << std::endl;
-            int i = 0, j = 0;
+            int i, j;
             double value;
-            std::ifstream file_name((*s_it));
-            while ( !file_name.eof() ){  // Check this bug
-                if (i == n_dimension){i = 0; ++j;}
-                file_name >> value;
-                if (value != 0){++counter;}
+            ++counter;
+    
+            file_name >> i >> j >> value;
+    
+            if ( file_name.eof() )
+                break;
+    
+            if (value > 0.00001)
                 M_sparse[m].insert(i,j) = value;
-                ++i;
-            }
+        }
         file_name.close();
         ++m;
+    }
+}
+  
+void Mat_vector::standard_read(const std::vector<std::string>& s){  
+    int m = 0;
+    for (auto s_it = s.begin() ; s_it < s.end() ; ++s_it){
+        int counter = 0;
+        std::cout << "Reading " << *s_it << "..." << std::endl;
+        int i = 0, j = 0;
+        double value;
+        std::ifstream file_name((*s_it));
+        while ( true ){
+            if (i == n_dimension){i = 0; ++j;}
+            file_name >> value;
+            if (value != 0){++counter;}
+            M_sparse[m].insert(i,j) = value;
+            ++i;
+            if (j == n_dimension - 1){if (i == n_dimension) break;}
         }
+    file_name.close();
+    ++m;
     }
+}
  
-    int Mat_vector::size(){
-        return M;
-    }
+int Mat_vector::size(){
+    return M;
+}
   
-    Eigen::SparseMatrix<double>& Mat_vector::sparse(int m){
-        return M_sparse[m];
-    }
+Eigen::SparseMatrix<double>& Mat_vector::sparse(int m){
+    return M_sparse[m];
+}
   
-    std::vector<Eigen::SparseMatrix<double>> Mat_vector::partial(int m1, int m2){
-        return std::vector<Eigen::SparseMatrix<double>>(M_sparse.begin() + m1, M_sparse.begin() + m2);
-    }
+std::vector<Eigen::SparseMatrix<double>> Mat_vector::partial(int m1, int m2){
+    //Assert that these numbers are within range
+    return std::vector<Eigen::SparseMatrix<double>>(M_sparse.begin() + m1, M_sparse.begin() + m2);
+}
   
-    std::vector<Eigen::SparseMatrix<double>> * Mat_vector::pointer(int m){
-        return &M_sparse + m;
-    }
+std::vector<Eigen::SparseMatrix<double>> * Mat_vector::pointer(int m){
+    return &M_sparse + m;
+}
   
-  
-    int Mat_vector::dimension() const {return n_dimension;}
-    int Mat_vector::steps() const {return M;}
+int Mat_vector::dimension() const {return n_dimension;}
+
+//TODO This function can be eliminated, equivalent to size()
+int Mat_vector::steps() const {return M;}
 
 
 /*
