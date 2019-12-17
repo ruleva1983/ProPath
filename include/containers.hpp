@@ -43,7 +43,7 @@ private:
 
 class Mat_access{
 public:
-    Mat_access(Mat_vector& Mat, int threshold = 0);
+    Mat_access(Mat_vector&, int );
   
     Eigen::SparseMatrix<int>& sparse(int m);
 

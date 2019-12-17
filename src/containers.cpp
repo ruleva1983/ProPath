@@ -98,30 +98,30 @@ int Mat_vector::dimension() const {return n_dimension;}
 int Mat_vector::steps() const {return M;}
 
 
-/*
-    Mat_access::Mat_access(Mat_vector& Mat, int threshold = 0){
-        n_dimension = Mat.dimension();
-        M = Mat.size();
+
+Mat_access::Mat_access(Mat_vector& Mat, int threshold){
+    n_dimension = Mat.dimension();
+    M = Mat.size();
     
-        M_sparse.resize(M);
+    M_sparse.resize(M);
     
-        for(auto it = M_sparse.begin() ; it < M_sparse.end() ; ++it){
-            (*it).resize(n_dimension, n_dimension);
-        }
-    
-        for (int m = 0 ; m < M ; ++m){
-            M_sparse[m] = to_access(Mat.sparse(m),threshold);
-        }
+    for(auto it = M_sparse.begin() ; it < M_sparse.end() ; ++it){
+        (*it).resize(n_dimension, n_dimension);
     }
-  
-    Eigen::SparseMatrix<int>& Mat_access::sparse(int m){
+    
+    for (int m = 0 ; m < M ; ++m){
+        M_sparse[m] = to_access(Mat.sparse(m),threshold);
+    }
+}
+
+Eigen::SparseMatrix<int>& Mat_access::sparse(int m){
         return M_sparse[m];
-    }
+}
     
-    int Mat_access::dimension() const {return n_dimension;}
-    int Mat_access::steps() const {return M;}
+int Mat_access::dimension() const {return n_dimension;}
+int Mat_access::steps() const {return M;}
 
-
+/*
 
 
     Mat_prod_access::Mat_prod_access(Mat_access& Mat){

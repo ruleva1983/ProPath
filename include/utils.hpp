@@ -8,6 +8,6 @@
 
 Eigen::SparseMatrix<double> full_matrix(Mat_vector& Mat);
 
-Eigen::SparseMatrix<int> to_access(const Eigen::SparseMatrix<double>& M,double threshold = 0.0);
+Eigen::SparseMatrix<int> to_access(const Eigen::SparseMatrix<double>& , double);
 
 #endif
