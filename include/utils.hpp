@@ -2,7 +2,6 @@
 #define UTILS_INCLUDE
 
 #include "containers.hpp"
-#include "Eigen/Dense"
 #include "Eigen/Sparse"
 
 
