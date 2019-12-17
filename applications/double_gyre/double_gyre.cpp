@@ -11,17 +11,18 @@
 
 using namespace std;
 
-const string input_dir =
-		"/home/ruggero/repositories/transport-net/data/rug_code_back/5steps/";
-const string output_dir =
-		"/home/ruggero/repositories/transport-net/data/results/";
-
-const int N = 20000;
-
 
 int main(int argc, char *argv[]) {
+    
+    std::string N_string = argv[1];
+    std::string m_string = argv[2];
+    std::string input_dir = argv[3];
+    std::string output_dir = argv[4];
+    
 	// Reading parameters 
-	int M = 5, r = 1, I = -1, J = -1;
+    int N = std::stoi(N_string);
+	int M = std::stoi(m_string);
+    int r = 0, I = -1, J = -1;
 	double eps = 0.1;
 
 	// Reading matrices
@@ -30,18 +31,14 @@ int main(int argc, char *argv[]) {
 	string s_fin = ".dat";
 	vector < string > files;
 
-	/*for (int i = 0 ; i < M ; i++){
+	for (int i = 0 ; i < M ; i++){
 	 string s_n = std::to_string(i);
-	 files.push_back(s_init + s_n + s_fin);
-	 }*/
+	 files.push_back(s_init + m_string + "step_" + s_n + s_fin);
+    }
 
-	for (int i = M - 1; i >= 0; i--) {
-		string s_n = std::to_string(i);
-		files.push_back(s_init + s_n + s_fin);
-	}
     
 	//Timer t;
-	Mat_vector Mat(N, files);
+	Mat_vector Mat(N, files, "smart");
 	//std::cout << "Time to read matrices from file: " << t.elapsed() << " sec "
 	//		<< std::endl;
     /*
