@@ -1,26 +1,49 @@
+## Authors
+
+Dr. Ruggero Vasile (ruleva1983@gmail.com, ruggero.vasile@gfz-potsdam.de)
+Dr. Enrico Ser Giacomi (enrico.sergiacomi@gmail.com)
+
 
 ## Overview
+
+This under development library provides minimal ...
 
 When using this code, please acknowledge the authors by citing [Ser-Giacomi et al. (2015a)](#references) and [Ser-Giacomi et al. (2015b)](#references). 
 
 
 
+# Installation
+
+To run all components of the library, tests and applications you need to install boost, gtest and Eigen libraries.
 
 
-
-
-## Install boost
+## Install boost (on Ubuntu)
 
 For this project we need header only libraries of boost. To install:
 
 * sudo apt-get install libboost-all-dev
 
-## Install Gtest
+## Install Gtest (on Ubuntu)
 
 Gtest is used to compile and run the tests. Please refer to https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/
 for a proper installation on ubuntu system.
 
+* sudo apt-get install libgtest-dev
 
+* cd /usr/src/gtest
+
+* sudo cmake CMakeLists.txt
+
+* sudo make
+
+* sudo cp *.a /usr/lib
+
+
+## Install Eigen
+
+Run the script
+
+* install_eigen.sh
 
 
 
