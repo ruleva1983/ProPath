@@ -1,7 +1,5 @@
-
 #ifndef CONTAINERS_INCLUDE
 #define CONTAINERS_INCLUDE
-
 
 #include "Eigen/Dense"
 #include "Eigen/Sparse"
@@ -17,90 +15,23 @@ using namespace std;
 class Mat_vector{
 public:
     
-    Mat_vector(int dimension, const std::vector<std::string>& s, std::string mode = "smart"): n_dimension(dimension){
-        M = s.size();
-        M_sparse.resize(M);
-        for(auto it = M_sparse.begin() ; it < M_sparse.end() ; ++it){
-            (*it).resize(n_dimension, n_dimension);
-        }
-      
-        if(mode == "smart")
-            smart_read(s);
-      
-        else if(mode == "standard")
-            standard_read(s);
-      
-        else
-            std::cout << "Wrong inizialization mode for Mat_vector";
-  }
+    Mat_vector(int, const std::vector<std::string>& , std::string);
+    
+    void smart_read(const std::vector<std::string>&);
   
-  
-    void smart_read(const std::vector<std::string>& s){  
-        int m = 0;
-        for (auto s_it = s.begin() ; s_it < s.end() ; ++s_it){
-            int counter = 0;
-
-            std::ifstream file_name(*s_it);
-            std::cout << "Reading " << *s_it << "..." << std::endl;
-            while ( !file_name.eof() )  // Check this bug
-            {
-    
-                int i, j;
-                double value;
-                ++counter;
-    
-                file_name >> i >> j >> value;
-    
-                if ( file_name.eof() )
-                    break;
-    
-                if (value > 0.00001)
-                    M_sparse[m].insert(i,j) = value;
-            }
-            file_name.close();
-            ++m;
-        }
-    }
-  
-    void standard_read(const std::vector<std::string>& s){  
-        int m = 0;
-        for (auto s_it = s.begin() ; s_it < s.end() ; ++s_it){
-            int counter = 0;
-            std::cout << "Reading " << *s_it << "..." << std::endl;
-            int i = 0, j = 0;
-            double value;
-            std::ifstream file_name((*s_it));
-            while ( !file_name.eof() ){  // Check this bug
-                if (i == n_dimension){i = 0; ++j;}
-                file_name >> value;
-                if (value != 0){++counter;}
-                M_sparse[m].insert(i,j) = value;
-                ++i;
-            }
-        file_name.close();
-        ++m;
-        }
-    }
+    void standard_read(const std::vector<std::string>&);
  
-    int size(){
-        return M;
-    }
+    int size();
   
-    Eigen::SparseMatrix<double>& sparse(int m){
-        return M_sparse[m];
-    }
+    Eigen::SparseMatrix<double>& sparse(int);
   
-    std::vector<Eigen::SparseMatrix<double>> partial(int m1, int m2){
-        return std::vector<Eigen::SparseMatrix<double>>(M_sparse.begin() + m1, M_sparse.begin() + m2);
-    }
+    std::vector<Eigen::SparseMatrix<double>> partial(int, int);
   
-    std::vector<Eigen::SparseMatrix<double>> * pointer(int m){
-        return &M_sparse + m;
-    }
+    std::vector<Eigen::SparseMatrix<double>> * pointer(int);
   
-  
-    int dimension() const {return n_dimension;}
-    int steps() const {return M;}
+    int dimension() const; 
+    
+    int steps() const; 
  
 private:
  
@@ -108,6 +39,39 @@ private:
     int M, n_dimension;
 };
 
+
+class Mat_access{
+public:
+    Mat_access(Mat_vector&, int );
+  
+    Eigen::SparseMatrix<int>& sparse(int m);
+
+    int dimension() const;
+    int steps() const;
+  
+private:
+    std::vector<Eigen::SparseMatrix<int>> M_sparse;
+    int M, n_dimension;
+};
+
+
+class Mat_prod_access{
+public:
+    Mat_prod_access(Mat_access& Mat);
+  
+    int get_index(int i, int j);
+  
+    Eigen::SparseMatrix<int>& m_prod(int m);
+  
+private:
+    std::vector<std::pair<int,int>> make_pairs(int m);
+  
+    Eigen::SparseMatrix<int> make_product_sparse(Mat_access& Mat, int i, int j);
+  
+private:
+    std::vector<Eigen::SparseMatrix<int>> M_Prod;
+    std::vector<std::pair<int,int>> Pairs;
+};
 
 
 #endif

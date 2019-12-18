@@ -1,13 +1,13 @@
 # CMakeLists.txt
-# Date: 2018-11-30
-# Author: Ruggero Vasile (ruleva1983@gmail.com)
+# Date: 2019-12-15
+# Author: Dr. Ruggero Vasile (ruleva1983@gmail.com)
 
 project ( ProPath )
 
 cmake_minimum_required ( VERSION 3.5 )
 
-option (BUILD_TESTS "Enable to build tests" OFF)
-option (BUILD_EXAMPLES "Enable to build examples" OFF)
+option (BUILD_TESTS "Enable to build tests" ON)
+option (BUILD_EXAMPLES "Enable to build examples" ON)
 
 add_definitions(-std=c++11)
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
@@ -21,7 +21,6 @@ include_directories(third-party)
 
 
 if ( ${BUILD_TESTS} )
-	#add_subdirectory( third_party/googletest-release-1.8.0 )
     add_subdirectory ( test )
 endif ()
 
