@@ -1,0 +1,9 @@
+{
+    "n_nodes": 1250,
+    "matrix_dir" : "/home/ruggero/repositories/ProPath/data/sample_matrices/",
+    "result_dir" : "/home/ruggero/repositories/ProPath/data/sample_matrices/",
+    "matrix_names" : ["3step_0.dat", "3step_1.dat", "3step_2.dat"],
+    "initial_node" : -1,
+    "final_node" : -1,
+    "r" : 0
+}
