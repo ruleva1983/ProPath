@@ -1,10 +1,10 @@
-## Authors
+# Authors
 
 Dr. Ruggero Vasile (ruleva1983@gmail.com, ruggero.vasile@gfz-potsdam.de)
 Dr. Enrico Ser Giacomi (enrico.sergiacomi@gmail.com)
 
 
-## Overview
+# Overview
 
 This under development library provides minimal ...
 
@@ -23,10 +23,11 @@ For this project we need header only libraries of boost. To install:
 
 * sudo apt-get install libboost-all-dev
 
+This will install all header only boost libraries. In this project we are interested in the odeint library only.
+
 ## Install Gtest (on Ubuntu)
 
-Gtest is used to compile and run the tests. Please refer to https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/
-for a proper installation on ubuntu system.
+Gtest is used to compile and run the tests. Please refer to https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/ for a proper installation on ubuntu system.
 
 * sudo apt-get install libgtest-dev
 
@@ -46,9 +47,13 @@ Run the script
 * install_eigen.sh
 
 
+# Build
 
+To build the all components just run the "build_from_scratch.sh" script. You will need cmake to be installed. If you make some changes and want to avoid to rebuild everything you can just run the "rebuild.sh" script. 
 
+The executable files will be found within the build/ directory. Applications are in build/applications/name_of_application/
 
+Description of each application can be found in each  application/name_of_application/ folder.
 
 
 
