@@ -16,16 +16,16 @@ using namespace boost::numeric::odeint;
 typedef std::vector<double> state_type;
 
 
-std::vector<state_type> generate_particles(double a_x, double b_x, double a_y, double b_y, int x_cells,
+std::vector<state_type> generate_particles(double x_1, double x_2, double y_1, double y_2, int x_cells,
                                            int y_cells, int particle_density) {
 	std::vector<state_type> N;
-	double step = (b_y - a_y) / y_cells;
+	double step = (y_2 - y_1) / y_cells;
 	for (int i = 0; i < x_cells; ++i) {
 		for (int j = 0; j < y_cells; ++j) {
 			for (int k = 1; k < particle_density + 1; ++k) {
 				for (int l = 1; l < particle_density + 1; ++l) {
-					state_type x { a_x + step * i
-							+ k * step / (particle_density + 1), a_y + step * j
+					state_type x { x_1 + step * i
+							+ k * step / (particle_density + 1), y_1 + step * j
 							+ l * step / (particle_density + 1) };
 					N.push_back(x);
 				}
@@ -54,7 +54,7 @@ struct matrix {
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++) {
 				if (A[i][j] != 0)
-					file << i << "\t" << j << "\t" << A[i][j] << "\n";
+                    file << i << "\t" << j << "\t" << A[i][j] << "\n";
 			}
 		}
 	}
@@ -68,7 +68,8 @@ struct matrix {
 
 		for (int i = 0; i < dim; i++) {
 			for (int j = 0; j < dim; j++)
-				A[i][j] /= out_strenghts[i];
+                if(A[i][j] != 0)
+                    A[i][j] /= out_strenghts[i];
 		}
 
 	}
@@ -82,14 +83,14 @@ int evaluate_cell(double x, double y, double step, int x_cells) {
 }
 
 
-double a_x = 0;
-double b_x = 2;
-double a_y = 0;
-double b_y = 1;
+double x_1 = 0;
+double x_2 = 2;
+double y_1 = 0;
+double y_2 = 1;
 int x_cells = 50;
 int y_cells = 50;
 int particle_density = 10;
-double step = (b_x - a_x) / static_cast<double>(x_cells);
+double step = (x_2 - x_1) / static_cast<double>(x_cells);
 int N_nodes = x_cells*y_cells;
 
 int main(int argc, char *argv[]) {
@@ -101,28 +102,28 @@ int main(int argc, char *argv[]) {
 	
 	int M = std::stoi(m_string);
 	observer obs;
+    
+    
+    for (int m = 0; m < M; ++m) {
 
-	for (int m = 0; m < M; ++m) {
-
-		matrix A(N_nodes);
-		std::vector<state_type> particles = generate_particles(a_x, b_x, a_y, b_y, x_cells, y_cells, particle_density);
-		double t_start = t0 + m * (tf - t0) / M, t_end = t_start + (tf - t0) / M;
+        matrix A(N_nodes);
+        std::vector<state_type> particles = generate_particles(x_1, x_2, y_1, y_2, x_cells, y_cells, particle_density);
+        double t_start = t0 + m * (tf - t0) / M, t_end = t_start + (tf - t0) / M;
         
-		for (int n = 0; n < particles.size(); ++n) {
-			int init_cell = evaluate_cell(particles[n][0], particles[n][1], step, x_cells);
-			state_type final_state = custom_integrate_adaptive<gyre_back>(
-					system, particles[n], t_start, t_end, dt, obs);
-			if (n % 100000 == 0)
-				cout << n << endl;
-			int final_cell = evaluate_cell(final_state[0], final_state[1], step, x_cells);
-			A(init_cell, final_cell) += 1;
-		}
-		A.normalize_out();
-		std::string filename = std::to_string(M) + "step_" + std::to_string(m)
-				+ ".dat";
-		ofstream file(output_dir + filename);
-		A.smart_print(file);
-		file.close();
-	}
+        for (int n = 0; n < particles.size(); ++n) {
+                int init_cell = evaluate_cell(particles[n][0], particles[n][1], step, x_cells);
+                state_type final_state = custom_integrate_adaptive<gyre_back>(
+                        system, particles[n], t_start, t_end, dt, obs);
+                if (n % 100000 == 0)
+                    cout << n << endl;
+                int final_cell = evaluate_cell(final_state[0], final_state[1], step, x_cells);
+                A(init_cell, final_cell) += 1;
+            }
+            A.normalize_out();
+            std::string filename = std::to_string(M) + "step_" + std::to_string(m) + ".dat";
+            ofstream file(output_dir + filename);
+            A.smart_print(file);
+            file.close();
+        }
 
 }
