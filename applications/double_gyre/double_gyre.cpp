@@ -41,25 +41,25 @@ int main(int argc, char *argv[]) {
 	Mat_vector Mat(N, files, "smart");
 	//std::cout << "Time to read matrices from file: " << t.elapsed() << " sec "
 	//		<< std::endl;
-    /*
-	t.reset();
-	Mat_access Mat_access(Mat);
-	std::cout << "Time to build single step accessibility matrices: "
-			<< t.elapsed() << " sec " << std::endl;
+    
+	//t.reset();
+	Mat_access Mat_access(Mat, 0.0);
+	//std::cout << "Time to build single step accessibility matrices: "
+	//		<< t.elapsed() << " sec " << std::endl;
 
-	t.reset();
+	//t.reset();
 	Mat_prod_access Mat_prod(Mat_access);
-	std::cout << "Time to make matrix products: " << t.elapsed() << " sec "
-			<< std::endl;
+	//std::cout << "Time to make matrix products: " << t.elapsed() << " sec "
+	//		<< std::endl;
 
-	t.reset();
+	//t.reset();
 	Eigen::SparseMatrix<double> Full_mat = full_matrix(Mat);
-	std::cout << "Time to make full matrix product: " << t.elapsed() << " sec "
-			<< std::endl;
+	//std::cout << "Time to make full matrix product: " << t.elapsed() << " sec "
+	//		<< std::endl;
 
-	t.reset();
+	//t.reset();
 	// Selecting indexes
-
+/*
 	int I1, I2, J1, J2;
 	string output_file = index(I1, I2, J1, J2, I, J, N);
 	cout << "Opening output file " + output_file + "...\n";
@@ -132,6 +132,6 @@ int main(int argc, char *argv[]) {
 
 	Pathpro.close();
 	std::cout << "Time for Dijkstra: " << t.elapsed() << " sec " << std::endl;
-    */
+  */  
 }
 
