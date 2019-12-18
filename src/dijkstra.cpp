@@ -6,6 +6,23 @@
 using namespace std;
 
 
+void useful_points(Mat_prod_access& Mat_prod, int M, int N, int I, int J,
+		std::vector<int>& Count, std::vector<std::vector<int>>& U) {
+	for (int m = 1; m < M; ++m) {
+		U.push_back(std::vector<int>(0));
+		int index1 = Mat_prod.get_index(1, m);
+		int index2 = Mat_prod.get_index(m + 1, M);
+		for (int a = 0; a < N; ++a) {
+			if (Mat_prod.m_prod(index1).coeff(I, a) != 0
+					&& Mat_prod.m_prod(index2).coeff(a, J) != 0) {
+				U[m - 1].push_back(a);
+				Count[m - 1]++;
+			}
+		}
+	}
+
+}
+
 double Dijkstra(Mat_vector& Mat, int m1, int m2, int i, int j, int M,
 		std::vector<std::vector<int>>& U, std::vector<int>& Count,
 		std::vector<int>& Path) {

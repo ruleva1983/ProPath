@@ -89,13 +89,13 @@ int main(int argc, char *argv[]) {
 				//double ProMax = new_Dijkstra(Mat.pointer(0), M, I, J, &U, &Count, PathMAX);
 
 				// Writing into file stream Pathpro
-				if (r == 0) {
+/*				if (r == 0) {
 					int index = Mat_prod.get_index(1, M);
-					for (int m = 0; m <= M; ++m)
-						Pathpro << PathMAX[m] << " ";
-					Pathpro << ProMAX << " " << Full_mat.coeff(I, J) << " "
-							<< Mat_prod.m_prod(index).coeff(I, J) << " "
-							<< ProMAX / Full_mat.coeff(I, J) << endl;
+					//for (int m = 0; m <= M; ++m)
+				//		Pathpro << PathMAX[m] << " ";
+					//Pathpro << ProMAX << " " << Full_mat.coeff(I, J) << " "
+					//		<< Mat_prod.m_prod(index).coeff(I, J) << " "
+					//		<< ProMAX / Full_mat.coeff(I, J) << endl;
 				}
 
 				if (r == 1) {
@@ -120,18 +120,17 @@ int main(int argc, char *argv[]) {
 						}
 					}
 
-					std::vector<double> Probabilities = Path_sort(Cammino,
-							Prob);
-					write_Paths(Cammino, Probabilities, Pathpro);
+//					std::vector<double> Probabilities = Path_sort(Cammino, Prob);
+//					write_Paths(Cammino, Probabilities, Pathpro);
 
 				}
 
 			}
 		}
-	}
+}
 
-	Pathpro.close();
-	std::cout << "Time for Dijkstra: " << t.elapsed() << " sec " << std::endl;
-  */  
+//	Pathpro.close();
+	//std::cout << "Time for Dijkstra: " << t.elapsed() << " sec " << std::endl;
+*/    
 }
 
