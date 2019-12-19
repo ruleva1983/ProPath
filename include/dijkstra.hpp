@@ -8,7 +8,7 @@
 using namespace std;
 
 
-double Dijkstra(Mat_vector&, int, int, int, int, int,
+double Dijkstra(Mat_vector&, int, int, int, int,
         std::vector<std::vector<int>>& U, std::vector<int>&,
         std::vector<int>&);
 

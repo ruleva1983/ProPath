@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
 
 				///// Initial Djkstra Algorithm Calling /////
 				std::vector<int> PathMAX;
-				double ProMAX = Dijkstra(Mat, 0, M, I, J, M, U, Count, PathMAX);
+				double ProMAX = Dijkstra(Mat, 0, M, I, J, U, Count, PathMAX);
 
 				// Writing into file stream Pathpro
 				if (r == 0) {

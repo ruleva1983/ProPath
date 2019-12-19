@@ -23,7 +23,7 @@ void useful_points(Mat_prod_access& Mat_prod, int M, int N, int I, int J,
 
 }
 
-double Dijkstra(Mat_vector& Mat, int m1, int m2, int i, int j, int M,
+double Dijkstra(Mat_vector& Mat, int m1, int m2, int i, int j,
 		std::vector<std::vector<int>>& U, std::vector<int>& Count,
 		std::vector<int>& Path) {
     /**
@@ -47,7 +47,7 @@ double Dijkstra(Mat_vector& Mat, int m1, int m2, int i, int j, int M,
 		return Mat.sparse(m1).coeff(i, j);
 	} else {
 
-		std::vector<std::vector<double>> Fun(M - 1);
+		std::vector<std::vector<double>> Fun(m2 - m1 - 1);
 		for (int m = 0; m < U.size(); ++m) {
 			Fun[m].resize(U[m].size());
 		}
